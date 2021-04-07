@@ -6,6 +6,7 @@ import argparse
 import datetime
 import os
 import re
+import shutil
 import subprocess
 import sys
 
@@ -315,8 +316,9 @@ def clean_setup_addons_dir(addons_dir, odoo_version_override):
     # XXX we may want to clean metapackage_dir/setup.cfg if not universal_wheel
 
     paths_to_remove = [os.path.abspath(p) for p in paths_to_remove]
-    subprocess.check_call(["rm", "-rf"] + paths_to_remove)
-
+    # subprocess.check_call(["rm", "-rf"] + paths_to_remove)
+    for path in paths_to_remove:
+        shutil.rmtree(path)
 
 def check_setup_dir_is_git_clean(addons_dir):
     cmd = ["git", "diff", "--quiet", "--exit-code", "--", "setup"]
